@@ -9,22 +9,22 @@ var router = express.Router();
 
 router.get('/', function(req, res) {
   var feeds = [
-    createPodcastFeedPromise('http://mbmbam.libsyn.com/rss'),
-    createPodcastFeedPromise('http://sawbones.libsyn.com/rss'),
-    createPodcastFeedPromise('http://shmanners.libsyn.com/rss'),
-    createPodcastFeedPromise('http://adventurezone.libsyn.com/rss'),
-    createPodcastFeedPromise('http://bunkerbuddies.libsyn.com/rss'),
-    createPodcastFeedPromise('http://cipyd.libsyn.com/rss'),
-    createPodcastFeedPromise('http://stillbuffering.libsyn.com/rss'),
-    createPodcastFeedPromise('http://trendslikethese.libsyn.com/rss'),
-    createPodcastFeedPromise('http://rosebuddies.libsyn.com/rss'),
-    createPodcastFeedPromise('http://blart.libsyn.com/rss'),
-    createPodcastFeedPromise('http://feeds.feedburner.com/polygonqualitycontrol?format=xml'),
-    createPodcastFeedPromise('http://feeds.feedburner.com/CoolGamesInc?format=xml'),
-    createYoutubeFeedPromise('PLfH4HJ9AAqVSstrhnbCECKmnyWps6w58E', {program_name: 'Things I Bought At Sheetz', authors: ['Justin McElroy']}), //
-    createYoutubeFeedPromise('PLaDrN74SfdT6duuVl_8qxJ5eaaPHRX_ij', {program_name: 'Monster Factory', authors: ['Griffin McElroy', 'Justin McElroy']}),
+    createPodcastFeedPromise('http://mbmbam.libsyn.com/rss', {program_name: 'My Brother, My Brother and Me', authors: ['Griffin McElroy', 'Justin McElroy', 'Travis McElroy']}),
+    createPodcastFeedPromise('http://sawbones.libsyn.com/rss', {program_name: 'Sawbones: A Marital Tour of Misguided Medicine', authors: ['Justin McElroy', 'Sydnee McElroy']}),
+    createPodcastFeedPromise('http://shmanners.libsyn.com/rss', {program_name: 'Shmanners', authors: ['Teresa McElroy', 'Travis McElroy']}),
+    createPodcastFeedPromise('http://adventurezone.libsyn.com/rss', {program_name: 'The Adventure Zone', authors: ['Clint McElroy', 'Griffin McElroy', 'Justin McElroy', 'Travis McElroy']}),
+    createPodcastFeedPromise('http://bunkerbuddies.libsyn.com/rss', {program_name: 'Bunker Buddies', authors: ['Andie Bolt', 'Travis McElroy']}),
+    createPodcastFeedPromise('http://cipyd.libsyn.com/rss', {program_name: 'Can I Pet Your Dog?', authors: ['Renee Colvert', 'Travis McElroy', 'Allegra Ringo']}),
+    createPodcastFeedPromise('http://stillbuffering.libsyn.com/rss', {program_name: 'Still Buffering', authors: ['Sydnee McElroy', 'Rileigh Smirl']}),
+    createPodcastFeedPromise('http://trendslikethese.libsyn.com/rss', {program_name: 'Trends Like These', authors: ['Brent Black', 'Travis McElroy']}),
+    createPodcastFeedPromise('http://rosebuddies.libsyn.com/rss', {program_name: 'Rose Buddies', authors: ['Griffin McElroy', 'Rachel McElroy']}),
+    createPodcastFeedPromise('http://blart.libsyn.com/rss', {program_name: 'Til Death Do Us Blart', authors: ['Tim Batt', 'Griffin McElroy', 'Justin McElroy', 'Travis McElroy', 'Guy Montgomery']}),
+    createPodcastFeedPromise('http://feeds.feedburner.com/polygonqualitycontrol?format=xml', {program_name: 'Polygon\'s Quality Control', authors: ['Polygon', 'Justin McElroy']}),
+    createPodcastFeedPromise('http://feeds.feedburner.com/CoolGamesInc?format=xml', {program_name: 'CoolGames Inc', authors: ['Griffin McElroy', 'Polygon', 'Nick Robinson']}),
+    createYoutubeFeedPromise('PLfH4HJ9AAqVSstrhnbCECKmnyWps6w58E', {program_name: 'Things I Bought At Sheetz', authors: ['Justin McElroy', 'Dwight Slappe']}), //
+    createYoutubeFeedPromise('PLaDrN74SfdT6duuVl_8qxJ5eaaPHRX_ij', {program_name: 'Monster Factory', authors: ['Griffin McElroy', 'Justin McElroy', 'Polygon']}),
     createYoutubeFeedPromise('UU6k_GngLDtxbkUlZOq6_h5g', {program_name: 'MBMBam YouTube', authors: ['Griffin McElroy', 'Justin McElroy', 'Travis McElroy']}),
-    createYoutubeFeedPromise('PLaDrN74SfdT5huM_hsSXESlFzdzY2oXzY', {program_name: 'Griffin\'s amiibo Corner', authors: ['Griffin McElroy']})
+    createYoutubeFeedPromise('PLaDrN74SfdT5huM_hsSXESlFzdzY2oXzY', {program_name: 'Griffin\'s amiibo Corner', authors: ['Griffin McElroy', 'Polygon']})
   ];
 
   Promise.all(feeds).then(function(dataArray) {
@@ -33,26 +33,23 @@ router.get('/', function(req, res) {
   });
 });
 
-function createPodcastFeedPromise (url) {
+function createPodcastFeedPromise (url, feedData) {
   return new Promise(function(resolve, reject) {
     rp(url, function(err, response, body) {
       if (!err && response.statusCode === 200)
         parseString(body, function(err, result) {
           if (err) reject(err);
           else {
-            var feedData = result.rss.channel[0];
+            var data = result.rss.channel[0];
             var today = new Date();
             var compDate = new Date(today.getFullYear() - 1, today.getMonth());
-            var output = {
-              program_name: feedData.title[0],
-              feed_type: 'audio/podcast',
-            };
-            output.episodes = feedData.item.filter(function(episode) {
+            feedData.feed_type = 'audio/podcast';
+            feedData.episodes = data.item.filter(function(episode) {
               var pubDate = new Date(episode.pubDate[0]);
               return pubDate > compDate;
             }).slice(0, 5);
             console.log('Received data from ' + url);
-            resolve(output);
+            resolve(feedData);
           }
         });
     });
