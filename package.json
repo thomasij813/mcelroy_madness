@@ -10,6 +10,9 @@
   "license": "ISC",
   "dependencies": {
     "express": "^4.13.4",
-    "jade": "^1.11.0"
+    "jade": "^1.11.0",
+    "promise": "^7.1.1",
+    "request-promise": "^2.0.0",
+    "xml2js": "^0.4.16"
   }
 }
