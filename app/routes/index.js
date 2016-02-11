@@ -41,10 +41,18 @@ function createPodcastFeedPromise (url) {
           if (err) reject(err);
           else {
             var feedData = result.rss.channel[0];
+            var today = new Date();
+            var compDate = new Date(today.getFullYear() - 1, today.getMonth());
             var output = {
               program_name: feedData.title[0],
-              most_recent: feedData.item
+              feed_type: 'audio/podcast',
+              items: feedData.item
             };
+            var episodes = feedData.item.filter(function(episode) {
+              var pubDate = new Date(episode.pubDate[0]);
+              return pubDate > compDate;
+            });
+            output.episodes = episodes.slice(0, 5);
             console.log('Received data from ' + url);
             resolve(output);
           }
@@ -59,6 +67,7 @@ function createYoutubeFeedPromise (playlistId, feedData) {
     rp(url, function(err, response, body) {
       if (!err && response.statusCode === 200) {
         feedData.body = JSON.parse(body);
+        feedData.feed_type = 'video/YouTube';
         console.log('Received data from ' + feedData.program_name);
         resolve(feedData);
       }
