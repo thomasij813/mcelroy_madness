@@ -46,13 +46,11 @@ function createPodcastFeedPromise (url) {
             var output = {
               program_name: feedData.title[0],
               feed_type: 'audio/podcast',
-              items: feedData.item
             };
-            var episodes = feedData.item.filter(function(episode) {
+            output.episodes = feedData.item.filter(function(episode) {
               var pubDate = new Date(episode.pubDate[0]);
               return pubDate > compDate;
-            });
-            output.episodes = episodes.slice(0, 5);
+            }).slice(0, 5);
             console.log('Received data from ' + url);
             resolve(output);
           }
@@ -66,8 +64,14 @@ function createYoutubeFeedPromise (playlistId, feedData) {
   return new Promise(function(resolve, reject) {
     rp(url, function(err, response, body) {
       if (!err && response.statusCode === 200) {
-        feedData.body = JSON.parse(body);
+        var today = new Date();
+        var compDate = new Date(today.getFullYear() - 1, today.getMonth());
+        var data = JSON.parse(body);
         feedData.feed_type = 'video/YouTube';
+        feedData.episdoes = data.items.filter(function(episode) {
+          var pubDate = new Date(episode.snippet.publishedAt);
+          return pubDate > compDate;
+        }).slice(0, 5);
         console.log('Received data from ' + feedData.program_name);
         resolve(feedData);
       }
