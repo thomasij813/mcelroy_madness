@@ -29,7 +29,41 @@ router.get('/', function(req, res) {
 
   Promise.all(feeds).then(function(dataArray) {
     console.log('all promises returned');
-    res.json(dataArray);
+    var output = dataArray.map(function(program) {
+      if (program.feed_type === 'audio/podcast')
+        return program.episodes.map(function(episode) {
+          return {
+            program_name: program.program_name,
+            authors: program.authors,
+            feed_type: program.feed_type,
+            title: episode.title[0],
+            pub_date: new Date(episode.pubDate[0]),
+            source_link: episode.link[0],
+            autio_download: episode.enclosure[0].$.url,
+            description: episode.description[0]
+          };
+        });
+      else
+        return program.episodes.map(function(episode) {
+          return {
+            program_name: program.program_name,
+            authors: program.authors,
+            feed_type: program.feed_type,
+            title: episode.snippet.title,
+            pub_date: new Date(episode.snippet.publishedAt),
+            description: episode.snippet.description,
+            video_link: 'https://www.youtube.com/watch?v=' + episode.snippet.resourceId.videoId,
+            playlist_link: 'https://www.youtube.com/playlist?list=' + episode.snippet.playlistId,
+          };
+        });
+    }).reduce(function(a, b) {
+      return a.concat(b);
+    }).sort(function(a, b) {
+      if (a.pub_date < b.pub_date) return 1;
+      if (a.pub_date > b.pub_date) return -1;
+      return 0;
+    });
+    res.json(output);
   });
 });
 
@@ -65,7 +99,7 @@ function createYoutubeFeedPromise (playlistId, feedData) {
         var compDate = new Date(today.getFullYear() - 1, today.getMonth());
         var data = JSON.parse(body);
         feedData.feed_type = 'video/YouTube';
-        feedData.episdoes = data.items.filter(function(episode) {
+        feedData.episodes = data.items.filter(function(episode) {
           var pubDate = new Date(episode.snippet.publishedAt);
           return pubDate > compDate;
         }).slice(0, 5);
