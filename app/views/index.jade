@@ -1,0 +1,12 @@
+doctype html
+head
+  title Landing Page
+  link(rel='stylesheet', href='/stylesheets/style.css', type='text/css')
+body
+  ul
+    each program in locals.data
+      p #{program.program_name}
+      - if (program.feed_type === 'audio/podcast')
+        img(src="#{program.image_url}")
+      - else
+        iframe(src="#{program.video_link}" frameborder="0" allowfullscreen)

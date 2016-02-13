@@ -40,7 +40,8 @@ router.get('/', function(req, res) {
             pub_date: new Date(episode.pubDate[0]),
             source_link: episode.link[0],
             autio_download: episode.enclosure[0].$.url,
-            description: episode.description[0]
+            description: episode.description[0],
+            image_url: program.image_url
           };
         });
       else
@@ -52,7 +53,7 @@ router.get('/', function(req, res) {
             title: episode.snippet.title,
             pub_date: new Date(episode.snippet.publishedAt),
             description: episode.snippet.description,
-            video_link: 'https://www.youtube.com/watch?v=' + episode.snippet.resourceId.videoId,
+            video_link: 'https://www.youtube.com/v/' + episode.snippet.resourceId.videoId,
             playlist_link: 'https://www.youtube.com/playlist?list=' + episode.snippet.playlistId,
           };
         });
@@ -63,7 +64,9 @@ router.get('/', function(req, res) {
       if (a.pub_date > b.pub_date) return -1;
       return 0;
     });
-    res.json(output);
+    res.locals.data = output;
+    res.render('index');
+    //res.json(output);
   });
 });
 
@@ -78,6 +81,7 @@ function createPodcastFeedPromise (url, feedData) {
             var today = new Date();
             var compDate = new Date(today.getFullYear() - 1, today.getMonth());
             feedData.feed_type = 'audio/podcast';
+            feedData.image_url = data.image[0].url[0];
             feedData.episodes = data.item.filter(function(episode) {
               var pubDate = new Date(episode.pubDate[0]);
               return pubDate > compDate;
