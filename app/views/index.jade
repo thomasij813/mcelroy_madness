@@ -1,8 +1,18 @@
 doctype html
 head
   title Landing Page
+  link(rel='stylesheet', href='/stylesheets/normalize.css', type='text/css')
   link(rel='stylesheet', href='/stylesheets/style.css', type='text/css')
 body
+  ul.navigation
+    li.brand
+      a(href="#") McElroy Madness
+    li
+      a(href="#") Programs  
+    li
+      a(href="#") About
+    
+    
   ul
     each program in locals.data
       p #{program.program_name}
