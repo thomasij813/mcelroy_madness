@@ -19,6 +19,6 @@ body
           img(src="#{program.image_url}")
           .program_content
             .program_title #{program.title}
-            .program_date #{program.pub_date}
+            .program_date #{program.disp_date}
         -else
           iframe(src="#{program.video_link}" frameborder="0" allowfullscreen)
