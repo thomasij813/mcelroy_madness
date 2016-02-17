@@ -60,6 +60,7 @@ ul {
   margin-top: 1.5em;
   display: flex;
   flex-direction: row;
+  align-items: center;
 }
 
 .episode:hover {
@@ -70,6 +71,7 @@ ul {
   display: flex;
   flex-direction: column;
   margin: 5px 10px;
+  align-self: flex-start;
 }
 
 .program_date {
@@ -83,6 +85,7 @@ ul {
   height: 100px;
   width: 100px;
   position: relative;
+  flex-shrink: 0;
 }
 
 .img_container .img_overlay {
