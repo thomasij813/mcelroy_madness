@@ -7,16 +7,18 @@ body
   ul.navigation
     li.brand
       a(href="#") McElroy Madness
+    li.blank  
     li
       a(href="#") Programs  
     li
       a(href="#") About
-    
-    
-  ul
+  ul.program_list
     each program in locals.data
-      p #{program.program_name}
-      - if (program.feed_type === 'audio/podcast')
-        img(src="#{program.image_url}")
-      - else
-        iframe(src="#{program.video_link}" frameborder="0" allowfullscreen)
+      li
+        -if (program.feed_type === 'audio/podcast')
+          img(src="#{program.image_url}")
+          .program_content
+            .program_title #{program.title}
+            .program_date #{program.pub_date}
+        -else
+          iframe(src="#{program.video_link}" frameborder="0" allowfullscreen)
