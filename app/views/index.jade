@@ -3,6 +3,7 @@ head
   title Landing Page
   link(rel='stylesheet', href='/stylesheets/normalize.css', type='text/css')
   link(rel='stylesheet', href='/stylesheets/style.css', type='text/css')
+  link(rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css")
 body
   ul.navigation
     li.brand
@@ -18,9 +19,12 @@ body
         -if (program.feed_type === 'audio/podcast')
           .img_container
             img(src="#{program.image_url}")
-            .img_overlay &#9654
+            .img_overlay
+              i.fa.fa-play.audio_icon
           .program_content
             .program_title #{program.title}
             .program_date #{program.disp_date}
         -else
           iframe(src="#{program.video_link}" frameborder="0" allowfullscreen)
+  script(src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js")        
+  script(type="text/javascript" src="/scripts/script.js")
