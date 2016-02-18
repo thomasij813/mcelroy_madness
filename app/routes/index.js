@@ -42,7 +42,7 @@ router.get('/', function(req, res) {
             disp_date: month + ' ' + pubDate.getDate() + ', ' + pubDate.getFullYear(),
             pub_date: pubDate,
             source_link: episode.link[0],
-            autio_download: episode.enclosure[0].$.url,
+            audio_download: episode.enclosure[0].$.url,
             description: episode.description[0],
             image_url: program.image_url
           };
@@ -72,7 +72,7 @@ router.get('/', function(req, res) {
     });
     res.locals.data = output;
     res.render('index');
-    res.json(output);
+    //res.json(output);
   });
   // res.locals.data = test_data;
   // res.render('index');
