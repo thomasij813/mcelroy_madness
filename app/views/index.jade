@@ -15,7 +15,7 @@ body
       a(href="#") About
   ul.program_list
     each program in locals.data
-      li.episode
+      li.episode(audio="#{program.autio_download}")
         -if (program.feed_type === 'audio/podcast')
           .img_container
             img(src="#{program.image_url}")

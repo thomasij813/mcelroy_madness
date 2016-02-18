@@ -96,14 +96,14 @@ ul {
   height: 100%;
   display: none;
   line-height: 100px;
-  text-align: center;
-  vertical-align: center;
+  justify-content: center;
+  align-items: center;
   font-size: 2em;
   color: black;
 }
 
 .img_container:hover .img_overlay {
-  display: block;
+  display: flex;
   background: rgba(255, 20, 83, .25);
 }
 

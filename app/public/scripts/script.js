@@ -1,12 +1,17 @@
 (function() {
+  function toggleIcon(element) {
+    if (element.hasClass('fa-play')) {
+      $('i').removeClass('fa-pause').addClass('fa-play');
+      element.removeClass('fa-play').addClass('fa-pause');
+    } else {
+      element.removeClass('fa-pause').addClass('fa-play');
+    }
+  }
+
   $('.img_overlay').click(function() {
     var audio_icon = $(this).find('i');
-    if (audio_icon.hasClass('fa-play')) {
-      audio_icon.removeClass('fa-play');
-      audio_icon.addClass('fa-pause');
-    } else {
-      audio_icon.removeClass('fa-pause');
-      audio_icon.addClass('fa-play');
-    }
-  })
+    toggleIcon(audio_icon);
+  });
+
+
 })()
