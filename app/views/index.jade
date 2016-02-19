@@ -25,6 +25,10 @@ body
             .program_title #{program.title}
             .program_date #{program.disp_date}
         -else
-          iframe(src="#{program.video_link}" frameborder="0" allowfullscreen)
+          .video_img_container(link="#{program.video_link}")
+            img(src="#{program.image_url}")
+            .video_img_overlay
+              i.fa.fa-play-circle-o
+          //- iframe(src="#{program.video_link}" frameborder="0" allowfullscreen)
   script(src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js")        
   script(type="text/javascript" src="/scripts/script.js")

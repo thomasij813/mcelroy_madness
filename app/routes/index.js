@@ -19,6 +19,7 @@ router.get('/', function(req, res) {
     createPodcastFeedPromise('http://trendslikethese.libsyn.com/rss', {program_name: 'Trends Like These', authors: ['Brent Black', 'Travis McElroy']}),
     createPodcastFeedPromise('http://rosebuddies.libsyn.com/rss', {program_name: 'Rose Buddies', authors: ['Griffin McElroy', 'Rachel McElroy']}),
     createPodcastFeedPromise('http://blart.libsyn.com/rss', {program_name: 'Til Death Do Us Blart', authors: ['Tim Batt', 'Griffin McElroy', 'Justin McElroy', 'Travis McElroy', 'Guy Montgomery']}),
+    createPodcastFeedPromise('http://interrobangcast.libsyn.com/rss', {program_name: 'Interrobang with Travis and Tybee', authors: ['Travis McElroy', 'Tybee Diskin']}),
     createPodcastFeedPromise('http://feeds.feedburner.com/polygonqualitycontrol?format=xml', {program_name: 'Polygon\'s Quality Control', authors: ['Polygon', 'Justin McElroy']}),
     createPodcastFeedPromise('http://feeds.feedburner.com/CoolGamesInc?format=xml', {program_name: 'CoolGames Inc', authors: ['Griffin McElroy', 'Polygon', 'Nick Robinson']}),
     createYoutubeFeedPromise('PLfH4HJ9AAqVSstrhnbCECKmnyWps6w58E', {program_name: 'Things I Bought At Sheetz', authors: ['Justin McElroy', 'Dwight Slappe']}), //
@@ -61,6 +62,7 @@ router.get('/', function(req, res) {
             description: episode.snippet.description,
             video_link: 'https://www.youtube.com/v/' + episode.snippet.resourceId.videoId,
             playlist_link: 'https://www.youtube.com/playlist?list=' + episode.snippet.playlistId,
+            image_url: episode.snippet.thumbnails.high.url
           };
         });
     }).reduce(function(a, b) {

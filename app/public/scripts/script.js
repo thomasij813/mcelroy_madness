@@ -41,6 +41,9 @@
     toggleAudio(audioLink);
   });
 
-
+  $('.video_img_container').click(function() {
+    var video_link = $(this).attr('link');
+    $(this).replaceWith("<iframe src='" + video_link + "' frameborder='0' allowfullscreen/>")
+  })
 
 })()

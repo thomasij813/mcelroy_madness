@@ -57,7 +57,6 @@ ul {
 }
 
 .episode {
-  margin-top: 1.5em;
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -82,8 +81,8 @@ ul {
 }
 
 .img_container {
-  height: 100px;
-  width: 100px;
+  height: 150px;
+  width: 150px;
   position: relative;
   flex-shrink: 0;
 }
@@ -112,7 +111,39 @@ ul {
   width: 100%;
 }
 
+.video_img_container {
+  width: 100%;
+  height: auto;
+  position: relative;
+  display: flex;
+}
+
+.video_img_container img {
+  height: 100%;
+  width: 100%;
+}
+
+.video_img_container .video_img_overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  font-size: 4em;
+  color: black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.video_img_container:hover .video_img_overlay {
+  background: rgba(255, 20, 83, .25);
+}
+
 @media all and (max-width: 600px) {
+  body {
+    font-size: 16px;
+  }
   .navigation {
     flex-flow: column nowrap;
     border-bottom: none;
@@ -129,5 +160,9 @@ ul {
   .program_list {
     margin-top: 0;
     padding: 15px;
+  }
+  .img_container {
+    height: 100px;
+    width: 100px;
   }
 }
