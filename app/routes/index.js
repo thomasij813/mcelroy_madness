@@ -95,7 +95,7 @@ function createPodcastFeedPromise (url, feedData) {
             feedData.episodes = data.item.filter(function(episode) {
               var pubDate = new Date(episode.pubDate[0]);
               return pubDate > compDate;
-            }).slice(0, 5);
+            }).slice(0, 1);
             console.log('Received data from ' + url);
             resolve(feedData);
           }
@@ -116,7 +116,14 @@ function createYoutubeFeedPromise (playlistId, feedData) {
         feedData.episodes = data.items.filter(function(episode) {
           var pubDate = new Date(episode.snippet.publishedAt);
           return pubDate > compDate;
-        }).slice(0, 5);
+        }).sort(function(a, b) {
+          var aPubDate = new Date(a.snippet.publishedAt);
+          var bPubDate = new Date(b.snippet.publishedAt);
+          if (aPubDate > bPubDate) return -1;
+          if (bPubDate > aPubDate) return 1;
+          return 0;
+        }).slice(0,1);
+        console.log(feedData.episodes);
         console.log('Received data from ' + feedData.program_name);
         resolve(feedData);
       }
