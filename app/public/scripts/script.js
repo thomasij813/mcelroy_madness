@@ -23,26 +23,28 @@
     }
   }
 
-  function toggleIcon(element) {
-    if (element.hasClass('fa-play')) {
-      $('i').removeClass('fa-pause').addClass('fa-play');
-      element.removeClass('fa-play').addClass('fa-pause');
-    } else {
-      element.removeClass('fa-pause').addClass('fa-play');
+  function UIControlls() {
+    function toggleIcon(element) {
+      if (element.hasClass('fa-play')) {
+        $('i').removeClass('fa-pause').addClass('fa-play');
+        element.removeClass('fa-play').addClass('fa-pause');
+      } else {
+        element.removeClass('fa-pause').addClass('fa-play');
+      }
     }
+
+    $('.img_overlay').click(function() {
+      var audioIcon = $(this).find('i');
+      var audioLink = $(this).parents('li').attr('audio');
+      toggleIcon(audioIcon);
+      toggleAudio(audioLink);
+    });
+
+    $('.video_img_container').click(function() {
+      var video_link = $(this).attr('link');
+      $(this).replaceWith("<iframe src='" + video_link + "' frameborder='0' allowfullscreen/>")
+    });
   }
-
-  $('.img_overlay').click(function() {
-    var audioIcon = $(this).find('i');
-    var audioLink = $(this).parents('li').attr('audio');
-    toggleIcon(audioIcon);
-    toggleAudio(audioLink);
-  });
-
-  $('.video_img_container').click(function() {
-    var video_link = $(this).attr('link');
-    $(this).replaceWith("<iframe src='" + video_link + "' frameborder='0' allowfullscreen/>")
-  })
 
   $.getJSON('/api/allrecent', function(data) {
     data.forEach(function(episode) {
@@ -58,8 +60,8 @@
           "<div class='video_img_overlay'><i class='fa fa-play-circle-o'></i></div></div>"
         );
       }
-      $('.program_list').append();
-    })
+    });
+    UIControlls();
   });
 
 })()
