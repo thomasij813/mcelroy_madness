@@ -4,12 +4,8 @@ var parseString = require('xml2js').parseString;
 var Promise = require('promise');
 var api = require('../api/programs.js');
 
-var googleApiKey = 'AIzaSyA12J9ITYBJmtdbs68gwWRWWEm0owoUliY';
-
 var router = express.Router();
 
-router.get('/', function(req, res) {
-  res.render('index');
-});
+router.get('/allrecent', api.mostRecent);
 
 module.exports = router;
