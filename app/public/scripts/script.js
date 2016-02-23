@@ -47,6 +47,7 @@
   }
 
   $.getJSON('/api/allrecent', function(data) {
+    $('.loading').addClass('hide');
     data.forEach(function(episode) {
       if (episode.feed_type === 'audio/podcast') {
         $('.program_list').append(
