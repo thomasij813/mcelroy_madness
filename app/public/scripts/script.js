@@ -66,4 +66,6 @@
     UIControlls();
   });
 
+  $('.footer').addClass('hide');
+
 })()
