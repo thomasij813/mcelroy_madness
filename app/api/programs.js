@@ -2,7 +2,7 @@ var rp = require('request-promise');
 var parseString = require('xml2js').parseString;
 var Promise = require('promise');
 
-var googleApiKey = 'AIzaSyA12J9ITYBJmtdbs68gwWRWWEm0owoUliY';
+var googleApiKey = process.env.APIKEY;
 
 var podcasts = [
   {url: 'http://mbmbam.libsyn.com/rss', program_name: 'My Brother, My Brother and Me', authors: ['Griffin McElroy', 'Justin McElroy', 'Travis McElroy']},
