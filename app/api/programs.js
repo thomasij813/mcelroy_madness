@@ -121,6 +121,7 @@ function getMostRecent(req, res) {
             pub_date: pubDate,
             description: episode.snippet.description,
             video_link: 'https://www.youtube.com/v/' + episode.snippet.resourceId.videoId,
+            video_id: episode.snippet.resourceId.videoId,
             playlist_link: 'https://www.youtube.com/playlist?list=' + episode.snippet.playlistId,
             image_url: episode.snippet.thumbnails.high.url
           };

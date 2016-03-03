@@ -1,4 +1,11 @@
 (function() {
+
+  var tag = document.createElement('script');
+
+  tag.src = "https://www.youtube.com/iframe_api";
+  var firstScriptTag = document.getElementsByTagName('script')[0];
+  firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
   var currentAudioFile = undefined;
 
   function createAudio(link) {
@@ -42,7 +49,10 @@
 
     $('.video_img_container').click(function() {
       var video_link = $(this).attr('link');
-      $(this).replaceWith("<iframe src='" + video_link + "' frameborder='0' allowfullscreen/>")
+      var target = $(this).attr('id');
+      new YT.Player(target, {
+        videoId: target
+      });
     });
   }
 
@@ -58,7 +68,7 @@
         )
       } else {
         $('.program_list').append(
-          "<div class='video_img_container' link='" + episode.video_link + "'><img src='" + episode.image_url + "'/>" +
+          "<div class='video_img_container' id='" + episode.video_id + "'link='" + episode.video_link + "'><img src='" + episode.image_url + "'/>" +
           "<div class='video_img_overlay'><i class='fa fa-play-circle-o'></i></div></div>"
         );
       }
