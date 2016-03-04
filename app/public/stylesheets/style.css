@@ -85,6 +85,7 @@ p {
   display: flex;
   flex-direction: row;
   align-items: center;
+  border-bottom: 1px solid #ddd;
 }
 
 .episode:hover {
@@ -143,15 +144,15 @@ p {
 
 .video_img_container {
   width: 100%;
-  max-height: 360px;
   position: relative;
   display: flex;
   text-align: center;
 }
 
 .video_img_container img {
-  height: 100%;
+  max-height: 300px;
   width: 100%;
+  object-fit: cover;
 }
 
 .video_img_container .video_img_overlay {
