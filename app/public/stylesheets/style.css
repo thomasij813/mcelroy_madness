@@ -53,7 +53,7 @@ p {
   display: flex;
   flex-flow: row nowrap;
   justify-content: space-between;
-  border-bottom: 1px solid rgba(255, 20, 83, 0.06);;
+  border-bottom: 1px solid rgba(255, 20, 83, 0.06);
 }
 
 .navigation a {
@@ -84,19 +84,23 @@ p {
 .episode {
   display: flex;
   flex-direction: row;
-  align-items: center;
-  border-bottom: 1px solid #ddd;
 }
 
 .episode:hover {
   background-color: rgba(255, 20, 83, 0.06);
 }
 
+.episode:hover .program_content {
+  border-bottom: none;
+}
+
 .program_content {
   display: flex;
   flex-direction: column;
-  margin-left: 1.25rem;
-
+  padding-left: 1.25rem;
+  width: 100%;
+  padding-top: 10px;
+  border-bottom: 1px solid rgba(255, 20, 83, 0.06);
 }
 
 .program_date {
@@ -176,7 +180,6 @@ p {
 
 .footer {
   padding: 1rem 0;
-  border-top: 1px solid rgba(255, 20, 83, 0.06);;
   text-align: center;
   font-family: 'Raleway', sans-serif;
 }
