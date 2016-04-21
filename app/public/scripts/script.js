@@ -60,6 +60,11 @@
     $('.loading').addClass('hide');
     $('.footer').removeClass('hide');
     data.forEach(function(episode) {
+
+      if (episode.title.length > 100) {
+        episode.title = episode.title.substring(0, 100) + '...';
+      }
+
       if (episode.feed_type === 'audio/podcast') {
         $('.program_list').append(
           "<li class='episode' audio='" + episode.audio_download + "'>" +
