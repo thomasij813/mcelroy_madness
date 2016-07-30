@@ -70,7 +70,6 @@ function createYoutubeFeedPromise (youtubeSeries) {
           if (bPubDate > aPubDate) return 1;
           return 0;
         }).slice(0,1);
-        console.log('Received data from ' + youtubeSeries.program_name);
         resolve(youtubeSeries);
       }
     });
@@ -89,30 +88,31 @@ function getMostRecent(req, res) {
   var feeds = podcastPromises.concat(youtubeSeriesPromises);
 
   Promise.all(feeds).then(function(dataArray) {
-    console.log('all promises returned');
     var output = dataArray.map(function(program) {
       if (program.feed_type === 'audio/podcast')
         return program.episodes.map(function(episode) {
           var pubDate = new Date(episode.pubDate[0]);
           var month = pubDate.toLocaleString('en-us', { month: "long" });
-          return {
+          var source_link = episode.link ? episode.link[0] : null;
+          var d = {
             program_name: program.program_name,
             authors: program.authors,
             feed_type: program.feed_type,
             title: episode.title[0],
             disp_date: month + ' ' + pubDate.getDate() + ', ' + pubDate.getFullYear(),
             pub_date: pubDate,
-            source_link: episode.link[0],
+            source_link: source_link,
             audio_download: episode.enclosure[0].$.url,
             description: episode.description[0],
             image_url: program.image_url
           };
+          return d;
         });
-      else
+      if (program.feed_type === 'video/YouTube')
         return program.episodes.map(function(episode) {
           var pubDate = new Date(episode.snippet.publishedAt);
           var month = pubDate.toLocaleString('en-us', { month: "long" });
-          return {
+          var d = {
             program_name: program.program_name,
             authors: program.authors,
             feed_type: program.feed_type,
@@ -125,6 +125,7 @@ function getMostRecent(req, res) {
             playlist_link: 'https://www.youtube.com/playlist?list=' + episode.snippet.playlistId,
             image_url: episode.snippet.thumbnails.high.url
           };
+          return d;
         });
     }).reduce(function(a, b) {
       return a.concat(b);
@@ -133,6 +134,7 @@ function getMostRecent(req, res) {
       if (a.pub_date > b.pub_date) return -1;
       return 0;
     });
+    //console.log(output);
     res.json(output);
   });
 }
